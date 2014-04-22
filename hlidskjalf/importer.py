@@ -12,12 +12,16 @@ class Importer():
         self.file = filename
 
     def run(self):
+        result = []
         self._create_set()
         if self.set is not None:
             with open(self.file, 'r') as csv_file:
                 reader = csv.reader(csv_file)
                 for row in reader:
-                    self._save(row)
+                    response = self._save(row)
+                    if response:
+                        result.append(response)
+        return result
 
     def _create_set(self):
         query = DataSet.objects.filter(name=self.name)
@@ -37,6 +41,7 @@ class Importer():
         ditem = DataItem.objects.filter(item=item, set=self.set)
         if not ditem:
             DataItem(item=item, set=self.set).save()
+            return item.name
 
     @staticmethod
     def add_type(name):
