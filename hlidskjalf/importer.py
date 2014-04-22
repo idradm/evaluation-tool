@@ -18,7 +18,7 @@ class Importer():
             with open(self.file, 'r') as csv_file:
                 reader = csv.reader(csv_file)
                 for row in reader:
-                    response = self._save(row)
+                    response = self._save(row[0])
                     if response:
                         result.append(response)
         return result

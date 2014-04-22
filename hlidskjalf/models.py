@@ -5,21 +5,30 @@ from django.db import models
 class DataSet(models.Model):
     name = models.CharField(max_length=100)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
 class Item(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class DataItem(models.Model):
     item = models.ForeignKey(Item)
     set = models.ForeignKey(DataSet)
 
+    def __str__(self):
+        return "%s:%s" % (self.set.name, self.item.name)
+
 
 class Type(models.Model):
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
 class Result(models.Model):
@@ -32,3 +41,6 @@ class Result(models.Model):
         if type:
             self.type = type[0]
             self.save()
+
+    def __str__(self):
+        return self.value
