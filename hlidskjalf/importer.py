@@ -1,5 +1,5 @@
 import csv
-from hlidskjalf.models import DataSet, DataItem, Item
+from hlidskjalf.models import DataSet, DataItem, Item, Type
 
 __author__ = 'adam'
 
@@ -37,3 +37,9 @@ class Importer():
         ditem = DataItem.objects.filter(item=item, set=self.set)
         if not ditem:
             DataItem(item=item, set=self.set).save()
+
+    @staticmethod
+    def add_type(name):
+        query = Type.objects.filter(name=name)
+        if not query:
+            Type(name=name).save()
