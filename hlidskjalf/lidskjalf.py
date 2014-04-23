@@ -1,5 +1,5 @@
 import requests
-from hlidskjalf.models import DataSet, DataItem, Result
+from hlidskjalf.models import DataSet, DataItem, Result, Run
 
 
 class Lidskjalf():
@@ -9,19 +9,27 @@ class Lidskjalf():
 
     def run(self, set_name):
         result = []
-        set = self._get_set(set_name)
-        if set:
-            for data_item in self._get_items(set):
+        run = self._get_run(set_name)
+        if run:
+            for data_item in self._get_items(run.set):
                 out = self._get({'movieName': data_item.item.name})
                 if out:
                     result.append("%s with url %s added" % (data_item.item.name, out['url']))
-                    self._save_result(data_item.item, out, set)
+                    self._save_result(data_item.item, out, run)
         return result
 
     def _get(self, params):
         r = requests.get(self.url, params=params)
         if r.status_code == 200:
             return r.json()
+        return False
+
+    def _get_run(self, set_name):
+        set = self._get_set(set_name)
+        if set:
+            run = Run(set=set[0], url=self.url)
+            run.save()
+            return run
         return False
 
     @staticmethod
@@ -33,7 +41,7 @@ class Lidskjalf():
         return DataItem.objects.filter(set=set)
 
     @staticmethod
-    def _save_result(item, out, set):
+    def _save_result(item, out, run):
         val = out['url']
         query = Result.objects.filter(item=item, value=val)
         if not query:
@@ -41,6 +49,7 @@ class Lidskjalf():
             result.save()
         else:
             result = query[0]
-        item = DataItem.objects.filter(item=item, set=set)[0]
+        item = DataItem.objects.filter(item=item, set=run.set)[0]
         item.result = result
+        item.run = run
         item.save()

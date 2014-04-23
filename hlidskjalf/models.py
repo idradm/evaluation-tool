@@ -38,10 +38,16 @@ class Result(models.Model):
         return self.value
 
 
+class Run(models.Model):
+    url = models.CharField(max_length=255)
+    set = models.ForeignKey(DataSet)
+
+
 class DataItem(models.Model):
     item = models.ForeignKey(Item)
     set = models.ForeignKey(DataSet)
     result = models.ForeignKey(Result, blank=True, null=True)
+    run = models.ForeignKey(Run, blank=True, null=True)
 
     def __str__(self):
         return "%s:%s" % (self.set.name, self.item.name)
