@@ -1,8 +1,6 @@
 import csv
 from hlidskjalf.models import DataSet, DataItem, Item, Type
 
-__author__ = 'adam'
-
 
 class Importer():
 

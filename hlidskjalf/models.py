@@ -16,14 +16,6 @@ class Item(models.Model):
         return self.name
 
 
-class DataItem(models.Model):
-    item = models.ForeignKey(Item)
-    set = models.ForeignKey(DataSet)
-
-    def __str__(self):
-        return "%s:%s" % (self.set.name, self.item.name)
-
-
 class Type(models.Model):
     name = models.CharField(max_length=100)
 
@@ -34,7 +26,7 @@ class Type(models.Model):
 class Result(models.Model):
     value = models.CharField(max_length=255)
     item = models.ForeignKey(Item)
-    type = models.ForeignKey(Type, default=None, blank=True)
+    type = models.ForeignKey(Type, blank=True, null=True)
 
     def set_type(self, type_name):
         type = Type.objects.filter(name=type_name)
@@ -44,3 +36,12 @@ class Result(models.Model):
 
     def __str__(self):
         return self.value
+
+
+class DataItem(models.Model):
+    item = models.ForeignKey(Item)
+    set = models.ForeignKey(DataSet)
+    result = models.ForeignKey(Result, blank=True, null=True)
+
+    def __str__(self):
+        return "%s:%s" % (self.set.name, self.item.name)

@@ -13,7 +13,7 @@ class Lidskjalf():
             for data_item in self._get_items(set):
                 out = self._get({'movieName': data_item.item.name})
                 if out:
-                    self._save_result(data_item.item, out)
+                    self._save_result(data_item.item, out, set)
 
     def _get(self, params):
         r = requests.get(self.url, params=params)
@@ -30,7 +30,14 @@ class Lidskjalf():
         return DataItem.objects.filter(set=set)
 
     @staticmethod
-    def _save_result(item, out):
-        query = Result.objects.filter(item=item)
+    def _save_result(item, out, set):
+        val = out['url']
+        query = Result.objects.filter(item=item, value=val)
         if not query:
-            Result(item=item, value=out['url']).save()
+            result = Result(item=item, value=val)
+            result.save()
+        else:
+            result = query[0]
+        item = DataItem.objects.filter(item=item, set=set)[0]
+        item.result = result
+        item.save()
