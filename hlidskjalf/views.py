@@ -7,7 +7,6 @@ from hlidskjalf.models import Run, ResultItem, Type, Result
 # Create your views here.
 def index(request):
     runs = Run.objects.all()
-    print(runs)
     return render(request, 'main.html', {'runs': runs})
 
 
