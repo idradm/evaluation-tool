@@ -8,7 +8,7 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('-u', '--url', action='store', dest='url', help='Entry point'),
         make_option('-n', '--name', action='store', dest='name', help='Set name'),
-        make_option('-v', '--verbose', action='store_true', dest='verbose', default=False, help='Verbose output'),
+        make_option('-m', '--more', action='store_true', dest='verbose', default=False, help='Verbose output'),
     )
 
     def handle(self, *args, **options):

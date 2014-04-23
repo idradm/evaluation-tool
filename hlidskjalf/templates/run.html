@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .highlight { background-color: lightblue; }
+        .width-70p { width: 70%; }
+        .margin-left-15p { margin-left: 15%; }
+    </style>
+    <script language="javascript" type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(){
+            addEventHandlerForClass("button", "click", function(e) {
+                callChange(e.target.parentNode.children['id'].value, e.target.value, e.target.parentNode);
+            });
+        });
+
+        function addEventHandlerForClass(matchClass, event, callback) {
+            var elems = document.getElementsByTagName('*'), i;
+            for (i in elems) {
+                if((' ' + elems[i].className + ' ').indexOf(' ' + matchClass + ' ')
+                        > -1) {
+                    elems[i].addEventListener(event, callback);
+                }
+            }
+        }
+
+        function callChange(id, value, item) {
+            var r = new XMLHttpRequest();
+            r.open("POST", "/save/" + id + "/" + value, true);
+            r.onreadystatechange = function() {
+                if (r.readyState == 4 && r.status == 200) {
+                    setHighlight(r.responseText, item)
+                }
+            }
+            r.setRequestHeader("X-CSRFToken", document.getElementsByName('csrfmiddlewaretoken')[0].value);
+            r.send();
+        }
+
+        function setHighlight(data, item) {
+            var buttons = item.getElementsByTagName('button');
+            console.info(data);
+            for (var i=0; i<buttons.length; i++) {
+                buttons[i].className = (buttons[i].value == data) ? "button highlight" : "button";
+            }
+        }
+    </script>
+</head>
+<body>
+    {% csrf_token %}
+    <table class="width-70p margin-left-15p">
+        {% for result in results %}
+            <tr >
+                <td>{{result.item.item.name}}</td>
+                <td><a href="{{result.result.value}}" target="_blank">{{result.result.value}}</a></td>
+                <td>
+                    <input type="hidden" name="id" value="{{result.result.id}}">
+                    {% for button in buttons %}
+                        <button class="button {% if result.result.type.id == button.id %}highlight{% endif %}" value="{{button.id}}">{{button.name}}</button>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

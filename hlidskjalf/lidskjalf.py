@@ -1,5 +1,5 @@
 import requests
-from hlidskjalf.models import DataSet, DataItem, Result, Run
+from hlidskjalf.models import DataSet, DataItem, Result, Run, ResultItem
 
 
 class Lidskjalf():
@@ -50,6 +50,4 @@ class Lidskjalf():
         else:
             result = query[0]
         item = DataItem.objects.filter(item=item, set=run.set)[0]
-        item.result = result
-        item.run = run
-        item.save()
+        ResultItem(item=item, result=result, run=run).save()

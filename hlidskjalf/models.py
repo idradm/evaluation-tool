@@ -46,8 +46,15 @@ class Run(models.Model):
 class DataItem(models.Model):
     item = models.ForeignKey(Item)
     set = models.ForeignKey(DataSet)
+
+    def __str__(self):
+        return "%s:%s" % (self.set.name, self.item.name)
+
+
+class ResultItem(models.Model):
+    item = models.ForeignKey(DataItem)
     result = models.ForeignKey(Result, blank=True, null=True)
     run = models.ForeignKey(Run, blank=True, null=True)
 
     def __str__(self):
-        return "%s:%s" % (self.set.name, self.item.name)
+        return "%s %s" % (self.item, self.run.url)

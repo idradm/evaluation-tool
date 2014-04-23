@@ -8,7 +8,7 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('-i', '--input', action='store', dest='file', default=False, help='Input file'),
         make_option('-n', '--name', action='store', dest='name', default=False, help='Set name'),
-        make_option('-v', '--verbose', action='store_true', dest='verbose', default=False, help='Verbose output'),
+        make_option('-m', '--more', action='store_true', dest='verbose', default=False, help='Verbose output'),
     )
 
     def handle(self, *args, **options):

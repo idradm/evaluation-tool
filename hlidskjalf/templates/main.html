@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        .center { text-align: center; }
+        .width-70p { width: 70%; }
+        .margin-left-15p { margin-left: 15%; }
+    </style>
+</head>
+<body>
+    <table class="width-70p margin-left-15p">
+    <th>Runs</th>
+    {% for run in runs %}
+        <tr>
+            <td><a href="/run/{{run.id}}">{{run.url}}</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
