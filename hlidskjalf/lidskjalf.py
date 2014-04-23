@@ -8,12 +8,15 @@ class Lidskjalf():
         self.url = url
 
     def run(self, set_name):
+        result = []
         set = self._get_set(set_name)
         if set:
             for data_item in self._get_items(set):
                 out = self._get({'movieName': data_item.item.name})
                 if out:
+                    result.append("%s with url %s added" % (data_item.item.name, out['url']))
                     self._save_result(data_item.item, out, set)
+        return result
 
     def _get(self, params):
         r = requests.get(self.url, params=params)
