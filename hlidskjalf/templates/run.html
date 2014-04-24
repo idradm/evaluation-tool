@@ -5,7 +5,9 @@
     <style type="text/css">
         .highlight { background-color: lightblue; }
         .width-70p { width: 70%; }
+        .width-10p { width: 10%; }
         .margin-left-15p { margin-left: 15%; }
+        .row:nth-child(odd) { background-color: #CCC; }
     </style>
     <script language="javascript" type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(){
@@ -47,12 +49,23 @@
 </head>
 <body>
     {% csrf_token %}
+    <table class="margin-left-15p">
+        <tr><th>Stats</th></tr>
+        <tr><td>Total</td><td>{{stats.total}}</td></tr>
+        <tr><td>Found</td><td>{{stats.found}}</td></tr>
+        <tr><td>Coverage</td><td><b>{{stats.coverage}}%</b></td></tr>
+        <tr><th>Evaluated</th></tr>
+        {% for type, value in stats.types.items %}
+            <tr><td>{{type}}</td><td>{{value.0}}</td><td>{{value.1}}%</td></tr>
+        {% endfor %}
+    </table>
+
     <table class="width-70p margin-left-15p">
         {% for result in results %}
-            <tr >
+            <tr class="row">
                 <td>{{result.item.item.name}}</td>
                 <td><a href="{{result.result.value}}" target="_blank">{{result.result.value}}</a></td>
-                <td>
+                <td class="width-10p">
                     <input type="hidden" name="id" value="{{result.result.id}}">
                     {% for button in buttons %}
                         <button class="button {% if result.result.type.id == button.id %}highlight{% endif %}" value="{{button.id}}">{{button.name}}</button>

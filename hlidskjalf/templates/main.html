@@ -10,10 +10,11 @@
 </head>
 <body>
     <table class="width-70p margin-left-15p">
-    <th>Runs</th>
+    <tr><th>Runs</th><th>Set name</th></tr>
     {% for run in runs %}
         <tr>
             <td><a href="/run/{{run.id}}">{{run.url}}</a></td>
+            <td>{{run.set.name}}</td>
         </tr>
     {% endfor %}
     </table>
