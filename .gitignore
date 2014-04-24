@@ -1,4 +1,7 @@
 .git
+.idea
 ENV/*
 db.sqlite3
 *.cnf
+*.pyc
+*.csv
