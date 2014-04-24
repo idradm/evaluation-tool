@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^main', 'hlidskjalf.views.index'),
+    url(r'^', 'hlidskjalf.views.index'),
     url(r'^run/(?P<id>\d+)', 'hlidskjalf.views.details'),
     url(r'^save/(?P<id>\d+)/(?P<value>\d+)', 'hlidskjalf.views.save'),
 )
