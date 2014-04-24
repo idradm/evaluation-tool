@@ -12,7 +12,7 @@ class Lidskjalf():
         run = self._get_run(set_name)
         if run:
             for data_item in self._get_items(run.set):
-                out = self._get({'movieName': data_item.item.name})
+                out = self._get({'movieName': data_item.item.name, 'cb': run.id})
                 if out:
                     result.append("%s with url %s added" % (data_item.item.name, out['url']))
                     self._save_result(data_item.item, out, run)
