@@ -16,6 +16,13 @@ class Item(models.Model):
         return self.name
 
 
+class EpisodeItem(Item):
+    series = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return "%s/%s" % (self.series, self.name)
+
+
 class Type(models.Model):
     name = models.CharField(max_length=100)
 

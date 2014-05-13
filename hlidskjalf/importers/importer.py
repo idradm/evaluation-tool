@@ -1,8 +1,8 @@
 import csv
-from hlidskjalf.models import DataSet, DataItem, Item, Type
+from hlidskjalf.models import DataSet, Type
 
 
-class Importer():
+class Importer(object):
 
     def __init__(self, name, filename):
         self.set = None
@@ -14,9 +14,9 @@ class Importer():
         self._create_set()
         if self.set is not None:
             with open(self.file, 'r') as csv_file:
-                reader = csv.reader(csv_file)
+                reader = csv.reader(csv_file, delimiter="\t")
                 for row in reader:
-                    response = self._save(row[0])
+                    response = self._save(row)
                     if response:
                         result.append(response)
         return result
@@ -29,17 +29,8 @@ class Importer():
         else:
             self.set = query[0]
 
-    def _save(self, value):
-        query = Item.objects.filter(name=value)
-        if not query:
-            item = Item(name=value)
-            item.save()
-        else:
-            item = query[0]
-        ditem = DataItem.objects.filter(item=item, set=self.set)
-        if not ditem:
-            DataItem(item=item, set=self.set).save()
-            return item.name
+    def _save(self, row):
+        raise Exception("Not implemented")
 
     @staticmethod
     def add_type(name):

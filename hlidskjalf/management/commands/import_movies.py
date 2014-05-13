@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
-from hlidskjalf.importer import Importer
+from hlidskjalf.importers.movies import MoviesImporter
 
 
 class Command(BaseCommand):
@@ -15,6 +15,6 @@ class Command(BaseCommand):
         if not options['file'] or not options['name']:
             raise CommandError('File and set name are necessary')
 
-        result = Importer(options['name'], options['file']).run()
+        result = MoviesImporter(options['name'], options['file']).run()
         if options['verbose']:
             self.stdout.write("Added: %s" % result)
