@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
-from hlidskjalf.evals.movies import MoviesEval
+from hlidskjalf.evals.episodes import EpisodesEval
 
 
 class Command(BaseCommand):
@@ -15,7 +15,7 @@ class Command(BaseCommand):
         if not options['url'] or not options['name']:
             raise CommandError('Entry point and set name are necessary')
 
-        tool = MoviesEval()
+        tool = EpisodesEval()
         tool.set_entry_point(options['url'])
         result = tool.run(options['name'])
         if options['verbose']:
