@@ -14,6 +14,7 @@ def details(request, id):
     # render stats
     run = Run.objects.get(id=id)
     results = ResultItem.objects.filter(run=run)
+    template = "%s.html" % results[0].item.item.real_type if results else ''
 
     total = len(DataItem.objects.filter(set=run.set))
     found = len(results)
@@ -41,7 +42,7 @@ def details(request, id):
     }
 
     buttons = Type.objects.all()
-    return render(request, 'run.html', {'results': results, 'buttons': buttons, 'stats': stats})
+    return render(request, 'run.html', {'template': template, 'results': results, 'buttons': buttons, 'stats': stats})
 
 
 def save(request, id, value):

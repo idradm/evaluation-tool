@@ -10,6 +10,15 @@ class DataSet(models.Model):
 
 
 class Item(models.Model):
+    real_type = models.CharField(max_length=100)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.real_type = self.__class__.__name__.lower()
+        super(Item, self).save()
+
+
+class MovieItem(Item):
     name = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -17,6 +26,7 @@ class Item(models.Model):
 
 
 class EpisodeItem(Item):
+    name = models.CharField(max_length=255)
     series = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -55,7 +65,7 @@ class DataItem(models.Model):
     set = models.ForeignKey(DataSet)
 
     def __unicode__(self):
-        return "%s:%s" % (self.set.name, self.item.name)
+        return "%s:%s" % (self.set.name, self.item)
 
 
 class ResultItem(models.Model):

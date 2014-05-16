@@ -3,7 +3,8 @@ from django.test import TestCase
 from hlidskjalf.importers.movies import MoviesImporter
 from hlidskjalf.importers.episodes import EpisodeImporter
 from hlidskjalf.models import DataSet, DataItem, Item, Result
-from hlidskjalf.lidskjalf import Lidskjalf
+from hlidskjalf.evals.movies import MoviesEval
+from hlidskjalf.evals.episodes import EpisodesEval
 
 
 # Create your tests here.
@@ -27,7 +28,7 @@ class ImporterTestCase(TestCase):
         items = Item.objects.all()
         self.assertEqual(6, len(items))
 
-    def test_episode_set_created(self):
+    def test_correct_episode_set_created(self):
         set_name = 'episode_test'
         importer = EpisodeImporter(set_name, "hlidskjalf/test/test_tv_import.csv")
         importer.run()
@@ -53,7 +54,7 @@ class EvaluationTestCase(TestCase):
         set_name = 'test'
         importer = MoviesImporter(set_name, "hlidskjalf/test/test_import.csv")
         importer.run()
-        tool = Lidskjalf()
+        tool = MoviesEval()
 
         tool.set_entry_point('http://wikiaglobal.adam.wikia-dev.com/api/v1/Tv/Movie')
         with patch.object(tool, '_get', return_value={'url': 'http://testoutput'}):
@@ -61,3 +62,17 @@ class EvaluationTestCase(TestCase):
 
         query = Result.objects.all()
         self.assertEqual(6, len(query))
+
+    def test_episode_eval(self):
+        set_name = 'test'
+        importer = EpisodeImporter(set_name, "hlidskjalf/test/test_tv_import.csv")
+        importer.run()
+
+        tool = EpisodesEval()
+
+        tool.set_entry_point('http://sandbox-s3.www.wikia.com/api/v1/Tv/Movie')
+        with patch.object(tool, '_get', return_value={'url': 'http://sandbox-s3.www.wikia.com'}):
+            tool.run(set_name)
+
+        query = Result.objects.all()
+        self.assertEqual(40, len(query))

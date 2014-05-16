@@ -1,5 +1,5 @@
 from hlidskjalf.importers.importer import Importer
-from hlidskjalf.models import DataItem, Item
+from hlidskjalf.models import DataItem, MovieItem
 
 
 class MoviesImporter(Importer):
@@ -9,9 +9,9 @@ class MoviesImporter(Importer):
 
     def _save(self, row):
         value = row[0]
-        query = Item.objects.filter(name=value)
+        query = MovieItem.objects.filter(name=value)
         if not query:
-            item = Item(name=value)
+            item = MovieItem(name=value)
             item.save()
         else:
             item = query[0]

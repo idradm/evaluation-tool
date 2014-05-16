@@ -1,0 +1,8 @@
+<td>{{result.item.item.movieitem.name}}</td>
+<td><a href="{{result.result.value}}" target="_blank">{{result.result.value}}</a></td>
+<td class="width-10p">
+    <input type="hidden" name="id" value="{{result.result.id}}">
+    {% for button in buttons %}
+        <button class="button {% if result.result.type.id == button.id %}highlight{% endif %}" value="{{button.id}}">{{button.name}}</button>
+    {% endfor %}
+</td>
