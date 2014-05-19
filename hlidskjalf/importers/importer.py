@@ -1,4 +1,5 @@
 import csv
+import sys
 from hlidskjalf.models import DataSet, Type
 
 
@@ -13,6 +14,7 @@ class Importer(object):
         result = []
         self._create_set()
         if self.set is not None:
+            csv.field_size_limit(sys.maxsize)
             with open(self.file, 'r') as csv_file:
                 reader = csv.reader(csv_file, delimiter="\t")
                 for row in reader:
