@@ -1,5 +1,5 @@
 from mock import patch
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from hlidskjalf.importers.movies import MoviesImporter
 from hlidskjalf.importers.episodes import EpisodeImporter
 from hlidskjalf.models import DataSet, DataItem, Item, Result
@@ -48,7 +48,7 @@ class ImporterTestCase(TestCase):
         self.assertEqual(40, len(items))
 
 
-class EvaluationTestCase(TestCase):
+class EvaluationTestCase(TransactionTestCase):
 
     def test_url_builder(self):
         set_name = 'test'

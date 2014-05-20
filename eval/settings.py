@@ -68,7 +68,10 @@ DATABASES = {
 }
 
 if 'test' in sys.argv:
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'TEST_NAME': os.path.join(os.path.dirname(__file__), 'test.db'),
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
