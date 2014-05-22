@@ -29,6 +29,6 @@ class Stats(object):
             'total': total,
             'found': found,
             'coverage': coverage,
-            'real_coverage': round(coverage * type_coverages['OK'] / 100, 2),
+            # 'real_coverage': round(coverage * type_coverages['OK'] / 100, 2),
             'types': type_coverages
         }
