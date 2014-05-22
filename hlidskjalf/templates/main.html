@@ -12,7 +12,7 @@
     <table class="width-70p margin-left-15p">
     <tr><th>Runs</th><th>Set name</th></tr>
     {% for run in runs %}
-        <tr>
+        <tr style="background-color: #CCC;">
             <td><a href="/run/{{run.id}}">{{run.url}}</a></td>
             <td>{{run.set.name}}</td>
         </tr>
