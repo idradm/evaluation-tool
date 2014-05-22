@@ -7,7 +7,7 @@ class Stats(object):
     def get(run):
         stats = Stat.objects.filter(run=run)
 
-        total, found, coverage = (0, 0, 0)
+        total, found, coverage, real = (0, 0, 0, 0)
         type_coverages = {}
         for stat in stats:
             if stat.type:
@@ -20,11 +20,15 @@ class Stats(object):
                 found = stat.found
                 coverage = round((float(found) / float(total)) * 100, 2)
 
+        if 'OK' in type_coverages:
+            real = round(coverage * type_coverages['OK'][1] / 100, 2)
+
+
         return {
             'total': total,
             'found': found,
             'coverage': coverage,
-            'real_coverage': round(coverage * type_coverages['OK'][1] / 100, 2),
+            'real_coverage': real,
             'types': type_coverages
         }
 
