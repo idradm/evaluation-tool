@@ -50,7 +50,7 @@ class Stats(object):
     def save(run, type, values):
         (total, found) = values
         stat = Stat.objects.filter(run=run, type=type)
-        if not stat[0]:
+        if not stat:
             stat = Stat(run=run, type=type)
         stat.total = total
         stat.found = found
