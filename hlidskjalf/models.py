@@ -75,3 +75,10 @@ class ResultItem(models.Model):
 
     def __unicode__(self):
         return "%s %s" % (self.item, self.run.url)
+
+
+class Stat(models.Model):
+    run = models.ForeignKey(Run)
+    total = models.IntegerField()
+    found = models.IntegerField()
+    type = models.ForeignKey(Type, blank=True, null=True)

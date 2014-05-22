@@ -10,7 +10,7 @@ def index(request):
     runs = Run.objects.all()
     result = []
     for run in runs:
-        run.stats = Stats.get_for_run(run)
+        run.stats = Stats.get(run)
         result.append(run)
     return render(request, 'main.html', {'runs': result})
 
@@ -20,9 +20,10 @@ def details(request, id):
     run = Run.objects.get(id=id)
     results = ResultItem.objects.filter(run=run)
     template = "%s.html" % results[0].item.item.real_type if results else ''
+    Stats.calculate(run)
 
     buttons = Type.objects.all()
-    return render(request, 'run.html', {'template': template, 'results': results, 'buttons': buttons, 'stats': Stats.get_for_run(run)})
+    return render(request, 'run.html', {'template': template, 'results': results, 'buttons': buttons, 'stats': Stats.get(run)})
 
 
 def save(request, id, value):
