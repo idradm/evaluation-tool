@@ -16,6 +16,12 @@
             <td><a href="/run/{{run.id}}">{{run.url}}</a></td>
             <td>{{run.set.name}}</td>
         </tr>
+            <tr><td>Total</td><td>{{run.stats.total}}</td></tr>
+            <tr><td>Found</td><td>{{run.stats.found}}</td></tr>
+            <tr><td>Coverage</td><td><b>{{run.stats.coverage}}%</b></td></tr>
+            {% for type, value in run.stats.types.items %}
+                <tr><td>{{type}}</td><td>{{value.0}}</td><td>{{value.1}}%</td></tr>
+            {% endfor %}
     {% endfor %}
     </table>
 </body>
