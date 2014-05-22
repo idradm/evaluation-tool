@@ -52,6 +52,8 @@ class Stats(object):
         stat = Stat.objects.filter(run=run, type=type)
         if not stat:
             stat = Stat(run=run, type=type)
+        else:
+            stat = stat[0]
         stat.total = total
         stat.found = found
         stat.save()
