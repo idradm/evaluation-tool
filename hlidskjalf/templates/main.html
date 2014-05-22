@@ -19,6 +19,7 @@
             <tr><td>Total</td><td>{{run.stats.total}}</td></tr>
             <tr><td>Found</td><td>{{run.stats.found}}</td></tr>
             <tr><td>Coverage</td><td><b>{{run.stats.coverage}}%</b></td></tr>
+            <tr><td>Real coverage (coverage * OK)</td><td><b>{{run.stats.real_coverage}}%</b></td></tr>
             {% for type, value in run.stats.types.items %}
                 <tr><td>{{type}}</td><td>{{value.0}}</td><td>{{value.1}}%</td></tr>
             {% endfor %}
