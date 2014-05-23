@@ -18,7 +18,8 @@ def index(request):
 def details(request, id):
     # render stats
     run = Run.objects.get(id=id)
-    results = ResultItem.objects.filter(run=run)
+    results = ResultItem.objects.filter(run=run).filter(result__type__isnull=True)
+
     template = "%s.html" % results[0].item.item.real_type if results else ''
 
     buttons = Type.objects.all()
