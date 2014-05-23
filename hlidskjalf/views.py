@@ -20,7 +20,6 @@ def details(request, id):
     run = Run.objects.get(id=id)
     results = ResultItem.objects.filter(run=run)
     template = "%s.html" % results[0].item.item.real_type if results else ''
-    Stats.calculate(run)
 
     buttons = Type.objects.all()
     return render(request, 'run.html', {'template': template, 'results': results, 'buttons': buttons, 'stats': Stats.get(run)})
@@ -32,3 +31,9 @@ def save(request, id, value):
     result.save()
 
     return HttpResponse(json.dumps(int(value)), content_type="application/json")
+
+
+def calculate(request, id):
+    run = Run.objects.get(id=id)
+    Stats.calculate(run)
+    return HttpResponse(json.dumps("done"), content_type="application/json")
