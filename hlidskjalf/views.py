@@ -15,10 +15,16 @@ def index(request):
     return render(request, 'main.html', {'runs': result})
 
 
-def details(request, id):
+def details(request, id, page):
     # render stats
     run = Run.objects.get(id=id)
-    results = ResultItem.objects.filter(run=run).filter(result__type__isnull=True)
+    results = ResultItem.objects.filter(run=run)
+
+    if page is not None:
+        s, e = 20 * int(page), (20 * int(page)) + 20
+        results = results[s:e]
+    else:
+        results = results.filter(result__type__isnull=True)
 
     template = "%s.html" % results[0].item.item.real_type if results else ''
 
