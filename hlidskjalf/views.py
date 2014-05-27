@@ -43,4 +43,4 @@ def save(request, id, value):
 def calculate(request, id):
     run = Run.objects.get(id=id)
     Stats.calculate(run)
-    return HttpResponse(json.dumps("done"), content_type="application/json")
+    return render(request, 'done.html', {})
