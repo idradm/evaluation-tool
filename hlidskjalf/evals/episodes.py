@@ -18,4 +18,3 @@ class EpisodesEval(Eval):
             result = query[0]
         data_item = DataItem.objects.filter(item=item, set=run.set)[0]
         ResultItem(item=data_item, result=result, run=run).save()
-        return "%s:%s with url %s added" % (item.episodeitem.series, item.episodeitem.name, out['url'])

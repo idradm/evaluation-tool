@@ -14,7 +14,7 @@ class Eval(object):
         run = self._get_run(set_name)
         if run:
             threads = ThreadPool(processes=processes)
-            threads.imap(self._run_batch, self._get_items(run), processes)
+            res = threads.map(self._run_batch, self._get_items(run), processes)
         return True
 
     def _run_batch(self, params):
