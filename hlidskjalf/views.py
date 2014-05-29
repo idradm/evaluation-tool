@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from hlidskjalf.models import Run, ResultItem, Type, Result
 from hlidskjalf.stats import Stats
+from hlidskjalf.matcher import EpisodesMatcher
 
 
 # Create your views here.
@@ -24,7 +25,12 @@ def details(request, id, page):
         s, e = 20 * int(page), (20 * int(page)) + 20
         results = results[s:e]
     else:
-        results = results.filter(result__type__isnull=True)
+        to_check = []
+        matcher = EpisodesMatcher()
+        for result in results.filter(result__type__isnull=True):
+            if not matcher.match(result):
+                to_check.append(result)
+        results = to_check
 
     template = "%s.html" % results[0].item.item.real_type if results else ''
 
@@ -44,3 +50,11 @@ def calculate(request, id):
     run = Run.objects.get(id=id)
     Stats.calculate(run)
     return render(request, 'done.html', {})
+
+
+def test(request, id):
+    run = Run.objects.get(id=id)
+    results = ResultItem.objects.filter(run=run)
+    matcher = EpisodesMatcher()
+    print(matcher.match(results[0]))
+    return HttpResponse(json.dumps(int(1)), content_type="application/json")
