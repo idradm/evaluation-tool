@@ -10,12 +10,11 @@ class Eval(object):
         self.url = url
 
     def run(self, set_name, processes=5):
-        result = []
         run = self._get_run(set_name)
         if run:
             threads = ThreadPool(processes=processes)
-            result += threads.map(self._run_batch, self._get_items(run), processes)
-        return result
+            threads.map(self._run_batch, self._get_items(run), processes)
+        return True
 
     def _run_batch(self, params):
         (data_item, run) = params
