@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import sys
 
+# use for memory debugging
+# more: https://code.google.com/p/django-performance/wiki/UsingGuppyMonitor
+# import guppy
+# from guppy.heapy import Remote
+# Remote.on()
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -23,9 +29,7 @@ SECRET_KEY = '4godyn6uqwvvy4an_8eg^3&+@6m2qtjr6o)d@ls=j=dk!ph2@r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-TEMPLATE_DEBUG = True
-
+TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['dev-datatools']
 
 

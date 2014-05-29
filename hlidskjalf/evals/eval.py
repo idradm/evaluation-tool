@@ -3,7 +3,7 @@ import requests
 from django import db
 from multiprocessing.pool import ThreadPool
 from hlidskjalf.models import DataSet, DataItem, Run
-from django.db import connection
+
 
 class Eval(object):
 
@@ -21,11 +21,8 @@ class Eval(object):
         (data_item, run) = params
         out = self._get(self._get_params(data_item.item, run))
         if out:
-            return self._save_result(data_item.item, out, run)
-        print(connection.queries)
+            self._save_result(data_item.item, out, run)
         db.reset_queries()
-        print(connection.queries)
-        return False
 
     def _get(self, params):
         r = requests.get(self.url, params=params)

@@ -8,7 +8,6 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('-u', '--url', action='store', dest='url', help='Entry point'),
         make_option('-n', '--name', action='store', dest='name', help='Set name'),
-        make_option('-m', '--more', action='store_true', dest='verbose', default=False, help='Verbose output'),
         make_option('-t', '--threads', action='store', type=int, dest='threads', default=5, help='Threads number'),
     )
 
@@ -18,6 +17,4 @@ class Command(BaseCommand):
 
         tool = EpisodesEval()
         tool.set_entry_point(options['url'])
-        result = tool.run(options['name'], options['threads'])
-        if options['verbose']:
-            self.stdout.write("Result: %s" % result)
+        tool.run(options['name'], options['threads'])
