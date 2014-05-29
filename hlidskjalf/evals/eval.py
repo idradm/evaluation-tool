@@ -1,4 +1,5 @@
 import re
+from django import db
 import requests
 from multiprocessing.pool import ThreadPool
 from hlidskjalf.models import DataSet, DataItem, Run
@@ -21,6 +22,7 @@ class Eval(object):
         out = self._get(self._get_params(data_item.item, run))
         if out:
             return self._save_result(data_item.item, out, run)
+        db.reset_queries()
         return False
 
     def _get(self, params):
