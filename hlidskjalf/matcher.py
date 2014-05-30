@@ -1,7 +1,6 @@
+import re
 import string
 import urllib
-import codecs
-import re
 from hlidskjalf.models import Type
 
 
