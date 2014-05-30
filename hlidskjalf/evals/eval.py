@@ -1,4 +1,5 @@
 import re
+from __builtin__ import xrange
 import requests
 from django import db
 from multiprocessing.pool import ThreadPool
@@ -7,14 +8,19 @@ from hlidskjalf.models import DataSet, DataItem, Run
 
 class Eval(object):
 
+    batch_size = 10000
+
     def set_entry_point(self, url):
         self.url = url
 
     def run(self, set_name, processes=5):
         run = self._get_run(set_name)
         if run:
-            threads = ThreadPool(processes=processes)
-            res = threads.map(self._run_batch, self._get_items(run), processes)
+            items = self._get_items(run)
+            for i in xrange(0, len(items), self.batch_size):
+                threads = ThreadPool(processes=processes)
+                threads.map(self._run_batch, items[i:i+self.batch_size], processes)
+                db.reset_queries()
         return True
 
     def _run_batch(self, params):
@@ -22,7 +28,6 @@ class Eval(object):
         out = self._get(self._get_params(data_item.item, run))
         if out:
             self._save_result(data_item.item, out, run)
-        db.reset_queries()
 
     def _get(self, params):
         r = requests.get(self.url, params=params)
