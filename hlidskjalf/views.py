@@ -7,8 +7,12 @@ from hlidskjalf.matcher import EpisodesMatcher
 
 
 # Create your views here.
-def index(request):
-    runs = Run.objects.all()
+def index(request, page):
+    if page is None:
+        runs = Run.objects.all().order_by('-id')[:5]
+    else:
+        s, e = 5 * int(page), (5 * int(page)) + 5
+        runs = Run.objects.all().order_by('-id')[s:e]
     result = []
     for run in runs:
         run.stats = Stats.get(run)
