@@ -4,9 +4,6 @@ from hlidskjalf.models import DataItem, EpisodeItem
 
 class EpisodeImporter(Importer):
 
-    def __init__(self, name, filename):
-        super(EpisodeImporter, self).__init__(name, filename)
-
     def _save(self, row):
         if len(row[0]) < 255 and len(row[1]) < 255:
             query = EpisodeItem.objects.filter(series=row[0], name=row[1])

@@ -4,9 +4,10 @@ from django.db import models
 # Create your models here.
 class DataSet(models.Model):
     name = models.CharField(max_length=100)
+    lang = models.CharField(max_length=5)
 
     def __unicode__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.lang.upper())
 
 
 class Item(models.Model):

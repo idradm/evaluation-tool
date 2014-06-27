@@ -5,7 +5,8 @@ from hlidskjalf.models import DataSet, Type
 
 class Importer(object):
 
-    def __init__(self, name, filename):
+    def __init__(self, name, filename, lang="en"):
+        self.lang = lang
         self.set = None
         self.name = name
         self.file = filename
@@ -26,7 +27,7 @@ class Importer(object):
     def _create_set(self):
         query = DataSet.objects.filter(name=self.name)
         if not query:
-            self.set = DataSet(name=self.name)
+            self.set = DataSet(name=self.name, lang=self.lang)
             self.set.save()
         else:
             self.set = query[0]

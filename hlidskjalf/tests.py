@@ -65,14 +65,17 @@ class EvaluationTestCase(TransactionTestCase):
 
     def test_episode_eval(self):
         set_name = 'test'
-        importer = EpisodeImporter(set_name, "hlidskjalf/test/test_tv_import.csv")
+        lang = 'en'
+        importer = EpisodeImporter(set_name, "hlidskjalf/test/test_tv_import.csv", lang)
         importer.run()
 
         tool = EpisodesEval()
-
         tool.set_entry_point('http://sandbox-s3.www.wikia.com/api/v1/Tv/Movie')
         with patch.object(tool, '_get', return_value={'url': 'http://sandbox-s3.www.wikia.com'}):
             tool.run(set_name)
+
+        set = DataSet.objects.get(name=set_name)
+        self.assertEqual(set.lang, lang)
 
         query = Result.objects.all()
         self.assertEqual(40, len(query))

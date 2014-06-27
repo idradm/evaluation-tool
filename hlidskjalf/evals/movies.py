@@ -6,7 +6,6 @@ class MoviesEval(Eval):
 
     def _get_params(self, item, run):
         return {'movieName': item.movieitem.name, 'cb': run.id}
-        pass
 
     @staticmethod
     def _save_result(item, out, run):

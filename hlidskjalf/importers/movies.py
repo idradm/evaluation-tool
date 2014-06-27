@@ -4,9 +4,6 @@ from hlidskjalf.models import DataItem, MovieItem
 
 class MoviesImporter(Importer):
 
-    def __init__(self, name, filename):
-        super(MoviesImporter, self).__init__(name, filename)
-
     def _save(self, row):
         value = row[0]
         query = MovieItem.objects.filter(name=value)
