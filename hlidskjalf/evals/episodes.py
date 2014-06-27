@@ -5,7 +5,8 @@ from hlidskjalf.models import DataItem, Result, ResultItem
 class EpisodesEval(Eval):
 
     def _get_params(self, item, run):
-        return {'seriesName': item.episodeitem.series, 'episodeName': item.episodeitem.name, 'cb': run.id}
+        return {'seriesName': item.episodeitem.series, 'episodeName': item.episodeitem.name, 'cb': run.id,
+                'lang': run.set.lang}
 
     @staticmethod
     def _save_result(item, out, run):

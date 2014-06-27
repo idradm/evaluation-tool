@@ -5,7 +5,7 @@ from hlidskjalf.models import DataItem, Result, ResultItem
 class MoviesEval(Eval):
 
     def _get_params(self, item, run):
-        return {'movieName': item.movieitem.name, 'cb': run.id}
+        return {'movieName': item.movieitem.name, 'cb': run.id, 'lang': run.set.lang}
 
     @staticmethod
     def _save_result(item, out, run):
